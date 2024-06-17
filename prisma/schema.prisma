@@ -1,0 +1,57 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Menu_item {
+  id            Int     @id @default(autoincrement())
+  name          String
+  description   String?
+  type          Type
+  price         Int
+  is_glutenfree Boolean @default(false)
+  is_vegan      Boolean @default(false)
+  is_spicy      Boolean @default(false)
+  image_url     String?
+
+  @@map("menu_items")
+}
+
+enum Type {
+  DRINKS
+  APPETIZERS
+  MAINS
+  RICE
+  NOODLES
+  DESSERTS
+  SOUPS
+}
+
+model Admin {
+  id       Int    @id @default(autoincrement())
+  username String @unique @db.VarChar(30)
+  password String
+
+  @@map("admins")
+}
+
+model Info {
+  id      Int     @id @default(autoincrement())
+  hours   String
+  days    String
+  message String?
+  address String
+  phone   String
+
+  @@map("infos")
+}
